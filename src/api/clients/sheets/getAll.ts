@@ -5,19 +5,24 @@ import { ClientTypes } from "../../../types/clientTypes";
 export async function getAll(req: Request, res: Response) {
  try {
   const data = await SheetsApi();
-  console.log(data);
 
   const finalObject = data.map((item: ClientTypes) => {
    return {
-    id: item.Cliente_Codigo_Base,
-    document: item.Documento_Cliente,
-    name: item.Cliente_Nome_Base,
-    mail: item.Email_Cliente,
-    phone: item.Telefone1_Cliente,
-    phone2: item.Telefone2_Cliente,
-    isPrime: item.Prime_Hoje,
-    RpAt23: item.RP_AT_23,
-    representativeSales: item.Representante_Nome,
+    id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
+    document: item.Documento_Cliente ? item.Documento_Cliente : null,
+    name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
+    mail: item.Email_Cliente ? item.Email_Cliente : null,
+    phone: item.Telefone1_Cliente ? item.Telefone1_Cliente : null,
+    birthday: item.Data_Nascimento ? item.Data_Nascimento : null,
+    password: item.Senha ? true : false,
+    completed:
+     item.Cliente_Nome_Base &&
+     item.Email_Cliente &&
+     item.Telefone1_Cliente &&
+     item.Data_Nascimento &&
+     item.Senha
+      ? true
+      : false,
    };
   });
 

@@ -8,4 +8,6 @@ export interface ClientTypes {
  Prime_Hoje: string;
  RP_AT_23: string;
  Representante_Nome: string;
+ Senha: string;
+ Data_Nascimento: string;
 }
