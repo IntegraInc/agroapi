@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
-import { googleAuth } from "../../../services/googleAuth";
-import { postApi } from "../../../services/postApi";
+import { updateOneApi } from "../../../services/updateOneApi";
 
 export async function updateOne(req: Request, res: Response) {
  const { document } = req.params;
@@ -15,7 +14,7 @@ export async function updateOne(req: Request, res: Response) {
    document,
   };
 
-  const data = await postApi({ options });
+  const data = await updateOneApi({ options });
   res.send(data);
  } catch (error) {
   console.error(error);
