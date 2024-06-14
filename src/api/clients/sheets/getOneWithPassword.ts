@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
-import { ClientTypes } from "../../../types/clientTypes";
 
-export async function getAll(req: Request, res: Response) {
+export async function getOneWithPassword(req: Request, res: Response) {
+ const { document } = req.params;
+ const { password } = req.body;
  try {
   const data = await SheetsApi();
 
-  const finalObject = data.map((item: ClientTypes) => {
+  const filteredData = data.filter((doc: any) => {
+   return doc.Documento_Cliente == document && doc.Senha == password;
+  });
+  if (filteredData.length === 0) {
+   res.status(404).json("CPF informado ou senha não correspondem.");
+  }
+  const finalObject = filteredData.map((item: any) => {
    return {
     id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
@@ -26,7 +33,7 @@ export async function getAll(req: Request, res: Response) {
    };
   });
 
-  res.status(200).json(finalObject);
+  res.status(200).json(finalObject[0]);
  } catch (error) {
   console.error(error);
   res.status(500).json("Erro interno no servidor");

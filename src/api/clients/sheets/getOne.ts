@@ -14,11 +14,21 @@ export async function getOne(req: Request, res: Response) {
   }
   const finalObject = filteredData.map((item: any) => {
    return {
-    id: item.Cliente_Codigo_Base,
-    document: item.Documento_Cliente,
-    name: item.Cliente_Nome_Base,
-    mail: item.Email_Cliente,
-    phone: item.Telefone1_Cliente,
+    id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
+    document: item.Documento_Cliente ? item.Documento_Cliente : null,
+    name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
+    mail: item.Email_Cliente ? item.Email_Cliente : null,
+    phone: item.Telefone1_Cliente ? item.Telefone1_Cliente : null,
+    birthday: item.Data_Nascimento ? item.Data_Nascimento : null,
+    password: item.Senha ? true : false,
+    completed:
+     item.Cliente_Nome_Base &&
+     item.Email_Cliente &&
+     item.Telefone1_Cliente &&
+     item.Data_Nascimento &&
+     item.Senha
+      ? true
+      : false,
    };
   });
 

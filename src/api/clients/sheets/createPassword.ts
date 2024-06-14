@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
-import { googleAuth } from "../../../services/googleAuth";
+import { updatePasswordApi } from "../../../services/updatePasswordApi";
 
 export async function createPassword(req: Request, res: Response) {
  const { document } = req.params;
- const { password } = req.body;
+ const { password, birthday } = req.body;
  try {
-  const options = { document, password };
-  const data = await googleAuth({ options });
+  const options = { document, password, birthday };
+  const data = await updatePasswordApi({ options });
 
   res.status(200).json(data);
  } catch (error) {
