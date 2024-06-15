@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
 
-export async function getOneWithPassword(req: Request, res: Response) {
+export async function checkOne(req: Request, res: Response) {
  const { document } = req.params;
  const { password } = req.body;
  try {
