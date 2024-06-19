@@ -11,7 +11,7 @@ export async function checkOne(req: Request, res: Response) {
    return doc.Documento_Cliente == document && doc.Senha == password;
   });
   if (filteredData.length === 0) {
-   res.status(404).json("CPF informado ou senha não correspondem.");
+   return res.status(404).json("CPF informado ou senha não correspondem.");
   }
   const finalObject = filteredData.map((item: any) => {
    return {

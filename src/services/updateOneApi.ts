@@ -8,6 +8,7 @@ type optionsType = {
  name: string;
  phone: string;
  mail: string;
+ password?: string;
 };
 
 export async function updateOneApi({ options }: { options: optionsType }) {
@@ -51,10 +52,10 @@ export async function updateOneApi({ options }: { options: optionsType }) {
    null, //I
    null, //J
    null, //K
-   null, //L
+   options.password ? options.password : null, //L
    options.birthday, //M
   ];
-
+  console.log(options.password);
   const updateRange = `Senha_Cliente!A${rowIndex}:M${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
