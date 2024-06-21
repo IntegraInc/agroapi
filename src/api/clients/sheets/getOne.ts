@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
+import { formatDateString } from "../../../utils/formatDateString";
 
 export async function getOne(req: Request, res: Response) {
  const { document } = req.params;
@@ -12,6 +13,7 @@ export async function getOne(req: Request, res: Response) {
   if (filteredData.length === 0) {
    res.status(404).json("Cliente não encontrado na base.");
   }
+
   const finalObject = filteredData.map((item: any) => {
    return {
     id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
@@ -29,6 +31,10 @@ export async function getOne(req: Request, res: Response) {
      item.Senha
       ? true
       : false,
+    status: item.Status_Prime,
+    dueDate: !item.Data_Validade_Prime
+     ? null
+     : formatDateString(item.Data_Validade_Prime),
    };
   });
 
