@@ -11,7 +11,7 @@ export async function getOne(req: Request, res: Response) {
    return doc.Documento_Cliente == document;
   });
   if (filteredData.length === 0) {
-   res.status(404).json("Cliente não encontrado na base.");
+   return res.status(404).json("Cliente não encontrado na base.");
   }
 
   const finalObject = filteredData.map((item: any) => {

@@ -25,7 +25,7 @@ export async function updatePasswordApi({
 
  //Busca do ENV.
  const spreadsheetId = process.env.SHEETS_ID; // Substitua pelo ID da sua planilha
- const range = "Senha_Cliente!D:L"; // Ajuste a range conforme necessário
+ const range = "Senha_Cliente!D:P"; // Ajuste a range conforme necessário
  try {
   // Primeiro, obter os dados da planilha
   const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
@@ -51,7 +51,7 @@ export async function updatePasswordApi({
   }
 
   // Atualizar a célula da senha
-  const updateRange = `Senha_Cliente!L${rowIndex}:M${rowIndex}`; // Ajuste conforme necessário
+  const updateRange = `Senha_Cliente!P${rowIndex}:Q${rowIndex}`; // Ajuste conforme necessário
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
   const updateResponse = await client.request({
