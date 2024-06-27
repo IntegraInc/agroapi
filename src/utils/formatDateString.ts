@@ -22,7 +22,7 @@ export function formatDateString(dateString: string) {
  }
 
  // Cria um objeto de data com os valores ajustados para o mês correto (base-0)
- const date = new Date(year, month - 1, day);
+ const date = new Date(year, month, day);
 
  // Converte a data para o formato "DD/MM/YYYY"
  return date.toLocaleDateString("pt-BR", {
