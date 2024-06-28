@@ -4,11 +4,18 @@ import { formatDateString } from "../../../utils/formatDateString";
 
 export async function getOne(req: Request, res: Response) {
  const { document } = req.params;
+
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
+ console.log(documentReplaced);
  try {
   const data = await SheetsApi();
 
   const filteredData = data.filter((doc: any) => {
-   return doc.Documento_Cliente == document;
+   return doc.Documento_Cliente == documentReplaced;
   });
   if (filteredData.length === 0) {
    return res.status(404).json("Cliente não encontrado na base.");
