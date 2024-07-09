@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
 import { formatDateString } from "../../../utils/formatDateString";
+import { trimestreDoAno } from "../../../utils/formatQuarter";
 
 export async function getOne(req: Request, res: Response) {
  const { document } = req.params;
@@ -21,6 +22,7 @@ export async function getOne(req: Request, res: Response) {
    return res.status(404).json("Cliente não encontrado na base.");
   }
 
+  //crie uma função que busque a data validade e mostre em qual trimestre do ano esta, nessa forma: 1 trimestre, 2 trimestre, 3 trimestre, 4 trimestre
   const finalObject = filteredData.map((item: any) => {
    return {
     id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
@@ -42,6 +44,9 @@ export async function getOne(req: Request, res: Response) {
     dueDate: !item.Data_Validade_Prime
      ? null
      : formatDateString(item.Data_Validade_Prime),
+    quarter: !item.Data_Validade_Prime
+     ? null
+     : trimestreDoAno(formatDateString(item.Data_Validade_Prime)),
    };
   });
 

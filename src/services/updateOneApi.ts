@@ -11,7 +11,7 @@ type optionsType = {
  password?: string;
 };
 
-export async function updateOneApi({ options }: { options: optionsType }) {
+export async function updateOneApi({ options }: { options: any }) {
  const client = new JWT({
   email: process.env.CLIENT_EMAIL,
   key: process.env.PRIVATE_KEY,
@@ -31,7 +31,7 @@ export async function updateOneApi({ options }: { options: optionsType }) {
   let rowIndex = -1;
 
   for (let i = 1; i < rows.length; i++) {
-   if (rows[i][cpfIndex] == options.document) {
+   if (rows[i][cpfIndex] == options.documentReplaced) {
     rowIndex = i + 1; // Ajuste para zero-indexed
     break;
    }

@@ -4,13 +4,18 @@ import { updateOneApi } from "../../../services/updateOneApi";
 export async function updateOne(req: Request, res: Response) {
  const { document } = req.params;
  const { birthday, name, phone, mail, password } = req.body;
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
  try {
   const options = {
    birthday,
    name,
    phone,
    mail,
-   document,
+   documentReplaced,
    password,
   };
 

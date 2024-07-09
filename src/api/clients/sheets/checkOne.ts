@@ -4,11 +4,16 @@ import { SheetsApi } from "../../../services/sheetsApi";
 export async function checkOne(req: Request, res: Response) {
  const { document } = req.params;
  const { password } = req.body;
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
  try {
   const data = await SheetsApi();
 
   const filteredData = data.filter((doc: any) => {
-   return doc.Documento_Cliente == document && doc.Senha == password;
+   return doc.Documento_Cliente == documentReplaced && doc.Senha == password;
   });
   if (filteredData.length === 0) {
    return res.status(404).json("CPF informado ou senha não correspondem.");
