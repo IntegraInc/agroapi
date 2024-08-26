@@ -1,21 +1,26 @@
 import { Request, Response } from "express";
-import { SheetsApi } from "../../../services/sheetsApi";
 import { updateOneApi } from "../../../services/updateOneApi";
 
 export async function updateOne(req: Request, res: Response) {
  const { document } = req.params;
- const { birthday, name, phone, mail } = req.body;
+ const { birthday, name, phone, mail, password } = req.body;
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
  try {
   const options = {
    birthday,
    name,
    phone,
    mail,
-   document,
+   documentReplaced,
+   password,
   };
 
   const data = await updateOneApi({ options });
-  res.send(data);
+  res.status(200).json(data);
  } catch (error) {
   console.error(error);
   res.status(500).json("Erro interno no servidor");

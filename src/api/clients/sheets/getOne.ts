@@ -1,17 +1,28 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
+import { formatDateString } from "../../../utils/formatDateString";
+import { trimestreDoAno } from "../../../utils/formatQuarter";
 
 export async function getOne(req: Request, res: Response) {
  const { document } = req.params;
+
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
+ console.log(documentReplaced);
  try {
   const data = await SheetsApi();
 
   const filteredData = data.filter((doc: any) => {
-   return doc.Documento_Cliente == document;
+   return doc.Documento_Cliente == documentReplaced;
   });
   if (filteredData.length === 0) {
-   res.status(404).json("Cliente não encontrado na base.");
+   return res.status(404).json("Cliente não encontrado na base.");
   }
+
+  //crie uma função que busque a data validade e mostre em qual trimestre do ano esta, nessa forma: 1 trimestre, 2 trimestre, 3 trimestre, 4 trimestre
   const finalObject = filteredData.map((item: any) => {
    return {
     id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
@@ -29,6 +40,13 @@ export async function getOne(req: Request, res: Response) {
      item.Senha
       ? true
       : false,
+    status: item.Status_Prime,
+    dueDate: !item.Data_Validade_Prime
+     ? null
+     : formatDateString(item.Data_Validade_Prime),
+    quarter: !item.Data_Validade_Prime
+     ? null
+     : trimestreDoAno(formatDateString(item.Data_Validade_Prime)),
    };
   });
 

@@ -8,9 +8,10 @@ type optionsType = {
  name: string;
  phone: string;
  mail: string;
+ password?: string;
 };
 
-export async function updateOneApi({ options }: { options: optionsType }) {
+export async function updateOneApi({ options }: { options: any }) {
  const client = new JWT({
   email: process.env.CLIENT_EMAIL,
   key: process.env.PRIVATE_KEY,
@@ -18,7 +19,8 @@ export async function updateOneApi({ options }: { options: optionsType }) {
  });
 
  const spreadsheetId = process.env.SHEETS_ID; // Substitua pelo ID da sua planilha
- const range = "Senha_Cliente!A:N"; // Ajuste a range conforme necessário
+ //const range = "Senha_Cliente!A:N"; // Ajuste a range conforme necessário
+ const range = "Cliente!A:N"; // Ajuste a range conforme necessário
 
  try {
   const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
@@ -29,7 +31,7 @@ export async function updateOneApi({ options }: { options: optionsType }) {
   let rowIndex = -1;
 
   for (let i = 1; i < rows.length; i++) {
-   if (rows[i][cpfIndex] == options.document) {
+   if (rows[i][cpfIndex] == options.documentReplaced) {
     rowIndex = i + 1; // Ajuste para zero-indexed
     break;
    }
@@ -40,22 +42,16 @@ export async function updateOneApi({ options }: { options: optionsType }) {
   }
 
   const values = [
-   null, //A
-   options.name, //B
-   null, //C
-   null, //D
-   options.mail, //E
-   options.phone, //F
-   null, //G
-   null, //H
-   null, //I
-   null, //J
-   null, //K
-   null, //L
-   options.birthday, //M
+   options.name, //O
+   options.password ? options.password : null, //P
+   options.birthday, //Q
+   options.phone, //R
+   options.mail, //S
+   new Date().toLocaleDateString("pt-BR"), //T
   ];
-
-  const updateRange = `Senha_Cliente!A${rowIndex}:M${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
+  console.log(options.password);
+  //const updateRange = `Senha_Cliente!A${rowIndex}:Q${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
+  const updateRange = `Cliente!O${rowIndex}:T${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
   const updateResponse = await client.request({

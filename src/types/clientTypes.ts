@@ -10,4 +10,6 @@ export interface ClientTypes {
  Representante_Nome: string;
  Senha: string;
  Data_Nascimento: string;
+ Status_Prime: string;
+ Data_Validade: string;
 }

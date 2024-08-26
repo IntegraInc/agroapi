@@ -4,9 +4,15 @@ import { updatePasswordApi } from "../../../services/updatePasswordApi";
 
 export async function createPassword(req: Request, res: Response) {
  const { document } = req.params;
+
+ const documentReplaced = document
+  .replace(".", "")
+  .replace(".", "")
+  .replace("-", "");
+
  const { password, birthday } = req.body;
  try {
-  const options = { document, password, birthday };
+  const options = { documentReplaced, password, birthday };
   const data = await updatePasswordApi({ options });
 
   res.status(200).json(data);

@@ -23,6 +23,8 @@ export async function getAll(req: Request, res: Response) {
      item.Senha
       ? true
       : false,
+    status: item.Status_Prime,
+    dueDate: item.Data_Validade,
    };
   });
 
