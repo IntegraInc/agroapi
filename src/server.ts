@@ -1,5 +1,5 @@
 import express from "express";
-import authRoutes from "./routes/authRoutes";
+// import authRoutes from "./routes/authRoutes";
 import cors from "cors";
 import clientsRoutes from "./routes/clientsRoutes";
 
@@ -9,7 +9,7 @@ const server = express();
 server.use(express.json());
 server.use(cors({ origin: "*" }));
 const port = 3333;
-server.use(authRoutes);
+// server.use(authRoutes);
 server.use(clientsRoutes);
 
 server.listen(port, () => {

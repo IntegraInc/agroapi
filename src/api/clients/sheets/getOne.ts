@@ -11,7 +11,6 @@ export async function getOne(req: Request, res: Response) {
   .replace(".", "")
   .replace("-", "");
 
- console.log(documentReplaced);
  try {
   const data = await SheetsApi();
 
@@ -28,13 +27,13 @@ export async function getOne(req: Request, res: Response) {
     id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
     name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
-    mail: item.Email_Cliente ? item.Email_Cliente : null,
+    mail: item.Mail ? item.Mail : null,
     phone: item.Telefone1_Cliente ? item.Telefone1_Cliente : null,
     birthday: item.Data_Nascimento ? item.Data_Nascimento : null,
     password: item.Senha ? true : false,
     completed:
      item.Cliente_Nome_Base &&
-     item.Email_Cliente &&
+     item.Mail &&
      item.Telefone1_Cliente &&
      item.Data_Nascimento &&
      item.Senha

@@ -45,12 +45,10 @@ export async function updateOneApi({ options }: { options: any }) {
    options.name, //O
    options.password ? options.password : null, //P
    options.birthday, //Q
-   options.phone, //R
-   options.mail, //S
-   new Date().toLocaleDateString("pt-BR"), //T
+   new Date().toLocaleDateString("pt-BR"), //R
+   options.phone, //S
+   options.mail, //T
   ];
-  console.log(options.password);
-  //const updateRange = `Senha_Cliente!A${rowIndex}:Q${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
   const updateRange = `Cliente!O${rowIndex}:T${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
