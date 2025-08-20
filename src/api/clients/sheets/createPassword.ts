@@ -13,6 +13,10 @@ export async function createPassword(req: Request, res: Response) {
  const { password, birthday } = req.body;
  try {
   const options = { documentReplaced, password, birthday };
+  if (!birthday) {
+   res.status(400).json("Data de nascimento não informada corretamente");
+   return;
+  }
   const data = await updatePasswordApi({ options });
 
   res.status(200).json(data);

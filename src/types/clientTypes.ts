@@ -1,4 +1,5 @@
 export interface ClientTypes {
+ cod_cliente: number;
  Cliente_Codigo_Base: number;
  Documento_Cliente: string;
  Cliente_Nome_Base: string;
