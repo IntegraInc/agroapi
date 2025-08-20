@@ -11,7 +11,6 @@ export async function getOne(req: Request, res: Response) {
   .replace(".", "")
   .replace("-", "");
 
- console.log(documentReplaced);
  try {
   const data = await SheetsApi();
 
@@ -25,7 +24,7 @@ export async function getOne(req: Request, res: Response) {
   //crie uma função que busque a data validade e mostre em qual trimestre do ano esta, nessa forma: 1 trimestre, 2 trimestre, 3 trimestre, 4 trimestre
   const finalObject = filteredData.map((item: any) => {
    return {
-    id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
+    id: item.cod_cliente ? item.cod_cliente : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
     name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
     mail: item.Email_Cliente ? item.Email_Cliente : null,
@@ -40,13 +39,14 @@ export async function getOne(req: Request, res: Response) {
      item.Senha
       ? true
       : false,
-    status: item.Status_Prime,
-    dueDate: !item.Data_Validade_Prime
-     ? null
-     : formatDateString(item.Data_Validade_Prime),
-    quarter: !item.Data_Validade_Prime
-     ? null
-     : trimestreDoAno(formatDateString(item.Data_Validade_Prime)),
+    status:
+     item.Prime_Renovado_Trimestre_Atual_vs_Anterior == "SIM" ? true : false,
+    // dueDate: !item.Data_Validade_Prime
+    //  ? null
+    //  : formatDateString(item.Data_Validade_Prime),
+    // quarter: !item.Data_Validade_Prime
+    //  ? null
+    //  : trimestreDoAno(formatDateString(item.Data_Validade_Prime)),
    };
   });
 

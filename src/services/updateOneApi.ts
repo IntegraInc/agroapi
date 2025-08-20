@@ -20,7 +20,7 @@ export async function updateOneApi({ options }: { options: any }) {
 
  const spreadsheetId = process.env.SHEETS_ID; // Substitua pelo ID da sua planilha
  //const range = "Senha_Cliente!A:N"; // Ajuste a range conforme necessário
- const range = "Cliente!A:N"; // Ajuste a range conforme necessário
+ const range = "Novo_Cliente_Teste!A:N"; // Ajuste a range conforme necessário
 
  try {
   const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
@@ -51,7 +51,7 @@ export async function updateOneApi({ options }: { options: any }) {
   ];
   console.log(options.password);
   //const updateRange = `Senha_Cliente!A${rowIndex}:Q${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
-  const updateRange = `Cliente!O${rowIndex}:T${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
+  const updateRange = `Novo_Cliente_Teste!O${rowIndex}:T${rowIndex}`; // Ajuste conforme necessário para incluir múltiplas colunas
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
   const updateResponse = await client.request({
