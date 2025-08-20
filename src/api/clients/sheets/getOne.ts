@@ -27,13 +27,13 @@ export async function getOne(req: Request, res: Response) {
     id: item.cod_cliente ? item.cod_cliente : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
     name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
-    mail: item.Email_Cliente ? item.Email_Cliente : null,
+    mail: item.Mail ? item.Mail : null,
     phone: item.Telefone1_Cliente ? item.Telefone1_Cliente : null,
     birthday: item.Data_Nascimento ? item.Data_Nascimento : null,
     password: item.Senha ? true : false,
     completed:
      item.Cliente_Nome_Base &&
-     item.Email_Cliente &&
+     item.Mail &&
      item.Telefone1_Cliente &&
      item.Data_Nascimento &&
      item.Senha
