@@ -13,11 +13,10 @@ export async function updatePasswordApi({ options }: { options: any }) {
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
  });
 
-
  //Busca do ENV.
  const spreadsheetId = process.env.SHEETS_ID; // Substitua pelo ID da sua planilha
 
- const range = "Cliente!D:P"; // Ajuste a range conforme necessário
+ const range = "Novo_Cliente_Teste!D:P"; // Ajuste a range conforme necessário
  try {
   // Primeiro, obter os dados da planilha
   const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
@@ -25,7 +24,6 @@ export async function updatePasswordApi({ options }: { options: any }) {
 
   const rows = getResponse.data.values;
   const cpfIndex = rows[0].indexOf("Documento_Cliente");
-
 
   let rowIndex = -1;
 
@@ -41,11 +39,14 @@ export async function updatePasswordApi({ options }: { options: any }) {
    return "CPF não encontrado.";
   }
 
- 
-  const updateRange = `Cliente!P${rowIndex}:R${rowIndex}`; // Ajuste conforme necessário
+  const updateRange = `Novo_Cliente_Teste!P${rowIndex}:R${rowIndex}`; // Ajuste conforme necessário
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
-  const values = [options.password, options.birthday,    new Date().toLocaleDateString("pt-BR")]
+  const values = [
+   options.password,
+   options.birthday,
+   new Date().toLocaleDateString("pt-BR"),
+  ];
 
   const updateResponse = await client.request({
    url: updateUrl,

@@ -8,7 +8,7 @@ export async function getAll(req: Request, res: Response) {
 
   const finalObject = data.map((item: ClientTypes) => {
    return {
-    id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
+    id: item.cod_cliente ? item.cod_cliente : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
     name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
     mail: item.Email_Cliente ? item.Email_Cliente : null,

@@ -18,6 +18,15 @@ export async function updateOne(req: Request, res: Response) {
    documentReplaced,
    password,
   };
+  if (
+   options.name === undefined ||
+   options.phone === undefined ||
+   options.mail === undefined ||
+   options.password === undefined
+  ) {
+   res.status(400).json("Dados não informados corretamente");
+   return;
+  }
 
   const data = await updateOneApi({ options });
   res.status(200).json(data);
