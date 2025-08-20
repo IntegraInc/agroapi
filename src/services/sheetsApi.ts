@@ -4,9 +4,6 @@ dotenv.config();
 
 export async function SheetsApi() {
  const spreadsheetId = process.env.SHEETS_ID;
- const parser = new PublicGoogleSheetsParser(
-  spreadsheetId,
-  "Novo_Cliente_Teste"
- );
+ const parser = new PublicGoogleSheetsParser(spreadsheetId, "Novo_Cliente");
  return await parser.parse().then();
 }
