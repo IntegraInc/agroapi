@@ -5,7 +5,11 @@
  "main": "index.js",
  "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
-  "dev": "nodemon -e ts,json  src/server.ts"
+  "dev": "nodemon -e ts,json  src/server.ts",
+  "deploy:stage:preview": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --yes --confirm",
+  "deploy:stage:prod": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --prod --yes --confirm",
+  "deploy:prod:preview": "cross-env VERCEL_ORG_ID=org_xxx VERCEL_PROJECT_ID=prj_B  vercel --yes --confirm",
+  "deploy:prod:prod": "cross-env VERCEL_ORG_ID=org_xxx VERCEL_PROJECT_ID=prj_B  vercel --prod --yes --confirm"
  },
  "author": "integra ltda",
  "license": "ISC",
@@ -22,6 +26,7 @@
   "typescript": "^5.4.5"
  },
  "devDependencies": {
-  "@types/express": "^4.17.21"
+  "@types/express": "^4.17.21",
+  "cross-env": "^10.0.0"
  }
 }

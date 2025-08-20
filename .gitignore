@@ -1,2 +1,7 @@
+# Dotenv
+.env
+.env.*
+!*.example
+!*.template
 node_modules
 .vercel
