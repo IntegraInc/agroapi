@@ -21,6 +21,16 @@ export async function getOne(req: Request, res: Response) {
    return res.status(404).json("Cliente não encontrado na base.");
   }
 
+  // console.log(filteredData);
+  //faça abaixo uma conversao de data Date(1947/2/1) por exemplo para o formato "01/02/1947"
+  filteredData.forEach((item: any) => {
+   if (item.Data_Nascimento) {
+    item.Data_Nascimento = formatDateString(item.Data_Nascimento);
+   }
+  });
+
+  // console.log(filteredData);
+
   //crie uma função que busque a data validade e mostre em qual trimestre do ano esta, nessa forma: 1 trimestre, 2 trimestre, 3 trimestre, 4 trimestre
   const finalObject = filteredData.map((item: any) => {
    return {
