@@ -7,7 +7,7 @@
 //  const spreadsheetId = process.env.SHEETS_ID;
 //  const parser = new PublicGoogleSheetsParser(
 //   spreadsheetId,
-//   "Novo_Cliente_Teste"
+//   "Novo_Cliente"
 //  );
 //  return await parser.parse().then();
 // }
@@ -27,7 +27,7 @@ export async function SheetsApi(): Promise<Record<string, any>[]> {
  const sheets = google.sheets({ version: "v4", auth });
 
  const spreadsheetId = process.env.SHEETS_ID!;
- const range = "Novo_Cliente_Teste!A1:T"; // ajusta se precisar mais colunas
+ const range = "Novo_Cliente!A1:T"; // ajusta se precisar mais colunas
 
  const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
 
