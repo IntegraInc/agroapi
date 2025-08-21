@@ -3,60 +3,53 @@ import { SheetsApi } from "../../../services/sheetsApi";
 import { formatDateString } from "../../../utils/formatDateString";
 import { trimestreDoAno } from "../../../utils/formatQuarter";
 
+function normalizeDoc(value: any): string | null {
+ if (!value) return null;
+ return String(value).replace(/\D/g, "");
+}
+
 export async function getOne(req: Request, res: Response) {
  const { document } = req.params;
-
- const documentReplaced = document
-  .replace(".", "")
-  .replace(".", "")
-  .replace("-", "");
+ const documentReplaced = document.replace(/\D/g, "");
 
  try {
   const data = await SheetsApi();
 
   const filteredData = data.filter((doc: any) => {
-   return doc.Documento_Cliente == documentReplaced;
+   return normalizeDoc(doc.Documento_Cliente) === documentReplaced;
   });
+
   if (filteredData.length === 0) {
    return res.status(404).json("Cliente não encontrado na base.");
   }
 
-  // console.log(filteredData);
-  //faça abaixo uma conversao de data Date(1947/2/1) por exemplo para o formato "01/02/1947"
-  filteredData.forEach((item: any) => {
-   if (item.Data_Nascimento) {
-    item.Data_Nascimento = formatDateString(item.Data_Nascimento);
-   }
-  });
-
-  // console.log(filteredData);
-
-  //crie uma função que busque a data validade e mostre em qual trimestre do ano esta, nessa forma: 1 trimestre, 2 trimestre, 3 trimestre, 4 trimestre
   const finalObject = filteredData.map((item: any) => {
    return {
-    id: item.Cliente_Codigo_Base ? item.Cliente_Codigo_Base : null,
-    document: item.Documento_Cliente ? item.Documento_Cliente : null,
-    name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
-    mail: item.Mail ? item.Mail : null,
-    phone: item.Telefone1_Cliente ? item.Telefone1_Cliente : null,
-    birthday: item.Data_Nascimento ? item.Data_Nascimento : null,
-    password: item.Senha ? true : false,
+    id: Number(item.cod_cliente) || null,
+    document: item.Documento_Cliente || null,
+    name: item.Cliente_Nome_Base || null,
+    mail: item.Mail || null,
+    phone: item.Telefone1_Cliente || item.Phone || null,
+    birthday: item.Data_Nascimento
+     ? formatDateString(item.Data_Nascimento)
+     : null,
+    password: !!item.Senha,
     completed:
      item.Cliente_Nome_Base &&
      item.Mail &&
-     item.Telefone1_Cliente &&
+     (item.Telefone1_Cliente || item.Phone) &&
      item.Data_Nascimento &&
      item.Senha
       ? true
       : false,
     status:
-     item.Prime_Renovado_Trimestre_Atual_vs_Anterior == "SIM" ? true : false,
-    dueDate: !item.Data_Validade_Prime
-     ? null
-     : formatDateString(item.Data_Validade_Prime),
-    quarter: !item.Data_Validade_Prime
-     ? null
-     : trimestreDoAno(formatDateString(item.Data_Validade_Prime)),
+     item.Prime_Renovado_Trimestre_Atual_vs_Anterior === "SIM" ? true : false,
+    dueDate: item.Data_Validade_Prime
+     ? formatDateString(item.Data_Validade_Prime)
+     : null,
+    quarter: item.Data_Validade_Prime
+     ? trimestreDoAno(formatDateString(item.Data_Validade_Prime))
+     : null,
    };
   });
 

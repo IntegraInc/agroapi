@@ -9,14 +9,14 @@ require("dotenv").config();
 export async function updatePasswordApi({ options }: { options: any }) {
  const client = new JWT({
   email: process.env.CLIENT_EMAIL,
-  key: process.env.PRIVATE_KEY,
+  key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
  });
 
  //Busca do ENV.
  const spreadsheetId = process.env.SHEETS_ID; // Substitua pelo ID da sua planilha
 
- const range = "Novo_Cliente!D:P"; // Ajuste a range conforme necessário
+ const range = "Novo_Cliente_Teste!D:P"; // Ajuste a range conforme necessário
  try {
   // Primeiro, obter os dados da planilha
   const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
@@ -39,7 +39,7 @@ export async function updatePasswordApi({ options }: { options: any }) {
    return "CPF não encontrado.";
   }
 
-  const updateRange = `Novo_Cliente!P${rowIndex}:R${rowIndex}`; // Ajuste conforme necessário
+  const updateRange = `Novo_Cliente_Teste!P${rowIndex}:R${rowIndex}`; // Ajuste conforme necessário
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${updateRange}?valueInputOption=RAW`;
 
   const values = [

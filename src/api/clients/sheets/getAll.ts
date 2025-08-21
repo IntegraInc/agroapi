@@ -6,9 +6,9 @@ export async function getAll(req: Request, res: Response) {
  try {
   const data = await SheetsApi();
 
-  const finalObject = data.map((item: ClientTypes) => {
+  const finalObject = data.map((item: any) => {
    return {
-    id: item.cod_cliente ? item.cod_cliente : null,
+    id: item.cod_cliente ? Number(item.cod_cliente) : null,
     document: item.Documento_Cliente ? item.Documento_Cliente : null,
     name: item.Cliente_Nome_Base ? item.Cliente_Nome_Base : null,
     mail: item.Email_Cliente ? item.Email_Cliente : null,

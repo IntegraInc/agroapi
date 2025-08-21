@@ -1,33 +1,73 @@
-export function formatDateString(dateString: string) {
- // Verifica se a entrada é uma string válida
+// utils/formatDateString.ts
+function pad2(n: number) {
+ return String(n).padStart(2, "0");
+}
 
- // Remove os caracteres 'Date(' e ')' e divide por vírgula
- const parts = dateString
-  .slice(5, -1)
-  .split(",")
-  .map((part) => part.trim());
+function fromSerialDays(serial: number): Date {
+ // Google Sheets/Excel: dias desde 1899-12-30
+ const base = Date.UTC(1899, 11, 30);
+ const ms = Math.round(serial * 24 * 60 * 60 * 1000);
+ return new Date(base + ms);
+}
 
- // Checa se todas as partes necessárias estão presentes
- if (parts.length !== 3) {
-  throw new Error(
-   "A entrada não contém todos os componentes de data necessários"
-  );
+function fromDMY(d: number, m: number, y: number): Date {
+ // Usa UTC para evitar offset de timezone
+ return new Date(Date.UTC(y, m - 1, d));
+}
+
+export function formatDateString(input: any): string | null {
+ if (input === null || input === undefined || input === "") return null;
+
+ let date: Date | null = null;
+
+ if (typeof input === "number" && !Number.isNaN(input)) {
+  // serial (pode vir com decimal)
+  date = fromSerialDays(input);
+ } else if (input instanceof Date && !Number.isNaN(input.getTime())) {
+  date = input;
+ } else if (typeof input === "string") {
+  const s = input.trim();
+
+  // Date(YYYY/M/D) ou Date(YYYY-MM-DD)
+  let m = s.match(/^Date\(\s*(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})\s*\)$/i);
+  if (m) {
+   const [, Y, M, D] = m.map(Number);
+   date = fromDMY(Number(D), Number(M), Number(Y));
+  }
+
+  // Serial em string (ex: "45532")
+  if (!date && /^\d+(\.\d+)?$/.test(s)) {
+   date = fromSerialDays(parseFloat(s));
+  }
+
+  // ISO YYYY-MM-DD (ignora horário se vier)
+  if (!date) {
+   m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+   if (m) {
+    const [, Y, M, D] = m.map(Number);
+    date = fromDMY(D, M, Y);
+   }
+  }
+
+  // DD/MM/YYYY ou D/M/YY
+  if (!date) {
+   m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+   if (m) {
+    let [, D, M, Y] = m;
+    let year = Number(Y);
+    // Se vier 2 dígitos, assume 1900–1999 para >= 50 e 2000–2099 para < 50 (ajuste se quiser)
+    if (Y.length === 2) year = year >= 50 ? 1900 + year : 2000 + year;
+    date = fromDMY(Number(D), Number(M), year);
+   }
+  }
  }
 
- const [year, month, day] = parts.map(Number);
+ if (!date || Number.isNaN(date.getTime())) return null;
 
- // Checa se algum dos componentes não é um número válido
- if (isNaN(year) || isNaN(month) || isNaN(day)) {
-  throw new Error("Ano, mês ou dia inválidos");
- }
+ // Formata DD/MM/YYYY em UTC (evita variação de fuso)
+ const d = date.getUTCDate();
+ const m = date.getUTCMonth() + 1;
+ const y = date.getUTCFullYear();
 
- // Cria um objeto de data com os valores ajustados para o mês correto (base-0)
- const date = new Date(year, month, day);
-
- // Converte a data para o formato "DD/MM/YYYY"
- return date.toLocaleDateString("pt-BR", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
- });
+ return `${pad2(d)}/${pad2(m)}/${y}`;
 }

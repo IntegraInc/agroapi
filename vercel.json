@@ -11,8 +11,5 @@
    "src": "(.*)",
    "dest": "src/server.ts"
   }
- ],
- "env": {
-  "NODE_OPTIONS": "--openssl-legacy-provider"
- }
+ ]
 }

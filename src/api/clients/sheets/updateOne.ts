@@ -16,13 +16,13 @@ export async function updateOne(req: Request, res: Response) {
    phone,
    mail,
    documentReplaced,
-   password,
+   //    password,
   };
   if (
    options.name === undefined ||
    options.phone === undefined ||
-   options.mail === undefined ||
-   options.password === undefined
+   options.mail === undefined
+   //    options.password === undefined
   ) {
    res.status(400).json("Dados não informados corretamente");
    return;
