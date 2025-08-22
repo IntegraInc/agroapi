@@ -6,10 +6,10 @@
  "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
   "dev": "nodemon -e ts,json  src/server.ts",
-  "deploy:stage:preview": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --yes --confirm",
-  "deploy:stage:prod": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --prod --yes --confirm",
-  "deploy:prod:preview": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_cBqJMFN0Gp2liemQrAJhrUoHAdKZ  vercel --yes --confirm",
-  "deploy:prod:prod": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_cBqJMFN0Gp2liemQrAJhrUoHAdKZ  vercel --prod --yes --confirm"
+  "deploy:stage:preview": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --yes ",
+  "deploy:stage:prod": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_NoIM3f3OAn7bY16focj9WyvoaiC5  vercel --prod --yes ",
+  "deploy:prod:preview": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_cBqJMFN0Gp2liemQrAJhrUoHAdKZ  vercel --yes ",
+  "deploy:prod:prod": "cross-env VERCEL_ORG_ID=team_qCAzy5W6ZONbq3Z6UkzwPuaT VERCEL_PROJECT_ID=prj_cBqJMFN0Gp2liemQrAJhrUoHAdKZ  vercel --prod --yes "
  },
  "author": "integra ltda",
  "license": "ISC",

@@ -13,6 +13,8 @@
 // }
 
 import { google } from "googleapis";
+import dotenv from "dotenv";
+dotenv.config();
 
 function getAuth() {
  return new google.auth.JWT({
@@ -27,7 +29,7 @@ export async function SheetsApi(): Promise<Record<string, any>[]> {
  const sheets = google.sheets({ version: "v4", auth });
 
  const spreadsheetId = process.env.SHEETS_ID!;
- const range = "Novo_Cliente!A1:T"; // ajusta se precisar mais colunas
+ const range = process.env.SHEETS_NAME + "!A1:T"; // ajusta se precisar mais colunas
 
  const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
 
