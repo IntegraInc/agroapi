@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { SheetsApi } from "../../../services/sheetsApi";
+import { resetPasswordApi } from "../../../services/resetPasswordApi";
 
 export async function checkOne(req: Request, res: Response) {
  const { document } = req.params;
@@ -11,12 +12,20 @@ export async function checkOne(req: Request, res: Response) {
 
  try {
   const data = await SheetsApi();
-
   const filteredData = data.filter((doc: any) => {
    return doc.Documento_Cliente == documentReplaced && doc.Senha == password;
   });
   if (filteredData.length === 0) {
-   return res.status(404).json("CPF informado ou senha não correspondem.");
+   const resposta = await resetPasswordApi({ options: { documentReplaced } });
+   if (!resposta) {
+    return res.status(500).json("Erro ao resetar a senha.");
+   }
+   return res
+    .status(404)
+    .json(
+     "CPF informado ou senha não correspondem. Senha resetada por segurança."
+    );
+   //RESETAR A SENHA AQUI
   }
   const finalObject = filteredData.map((item: any) => {
    return {
@@ -40,7 +49,6 @@ export async function checkOne(req: Request, res: Response) {
 
   res.status(200).json(finalObject[0]);
  } catch (error) {
-  console.error(error);
   res.status(500).json("Erro interno no servidor");
  }
 }
