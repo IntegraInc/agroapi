@@ -16,15 +16,11 @@ export async function checkOne(req: Request, res: Response) {
    return doc.Documento_Cliente == documentReplaced && doc.Senha == password;
   });
   if (filteredData.length === 0) {
-   const resposta = await resetPasswordApi({ options: { documentReplaced } });
-   if (!resposta) {
-    return res.status(500).json("Erro ao resetar a senha.");
-   }
-   return res
-    .status(404)
-    .json(
-     "CPF informado ou senha não correspondem. Senha resetada por segurança."
-    );
+   // const resposta = await resetPasswordApi({ options: { documentReplaced } });
+   // if (!resposta) {
+   //  return res.status(500).json("Erro ao resetar a senha.");
+   // }
+   return res.status(404).json("CPF informado ou senha não correspondem");
    //RESETAR A SENHA AQUI
   }
   const finalObject = filteredData.map((item: any) => {
